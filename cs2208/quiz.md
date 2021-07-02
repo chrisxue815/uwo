@@ -796,7 +796,7 @@ TODO
 </details>
 
 ## 3.59
-Write a function (subroutine) that inputs a data value in register r0 and returns value in r0. The function returns $y = a + bx + cx^2$, where a, b, and c are parameters built into the function (i.e., they are not passed to it). The subroutine also performs clipping. If the output is greater than a value d, it is constrained to d (clipped). The input in r0 is a positive binary value in the range 0 to 0xFF. Apart from r0, no other registers may be modified by this subroutine.
+Write a function (subroutine) that inputs a data value in register r0 and returns value in r0. The function returns y = a + bx + cx<sup>2</sup>, where a, b, and c are parameters built into the function (i.e., they are not passed to it). The subroutine also performs clipping. If the output is greater than a value d, it is constrained to d (clipped). The input in r0 is a positive binary value in the range 0 to 0xFF. Apart from r0, no other registers may be modified by this subroutine.
 
 <details>
 <summary>Answer</summary>
@@ -808,9 +808,7 @@ TODO
 ## 3.60
 A computer has three eight-element vectors in memory, Va, Vb, and Vc. Each element of a vector is a 32-bit word. Write the code to calculate all elements of Vc if the ith element is given by
 
-$$
-Vc_i = ½ (Va_i + Vb_i)
-$$
+Vc<sub>i</sub> = ½ (Va<sub>i</sub> + Vb<sub>i</sub>)
 
 <details>
 <summary>Answer</summary>
