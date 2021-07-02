@@ -62,23 +62,23 @@ d.  101101   e.  000000   f.  111110
 
 Code (in 32-bit):
 ```
-		MOV r0, #2_001011
-		ADDS r0, #2_001101
+        MOV r0, #2_001011
+        ADDS r0, #2_001101
 
-		MOV r0, #2_111111
-		ADDS r0, #2_000001
+        MOV r0, #2_111111
+        ADDS r0, #2_000001
 
-		MOV r0, #2_000000
-		SUBS r0, #2_111111
+        MOV r0, #2_000000
+        SUBS r0, #2_111111
 
-		MOV r0, #2_101101
-		ADDS r0, #2_011011
+        MOV r0, #2_101101
+        ADDS r0, #2_011011
 
-		MOV r0, #2_000000
-		SUBS r0, #2_000001
+        MOV r0, #2_000000
+        SUBS r0, #2_000001
 
-		MOV r0, #2_111110
-		ADDS r0, #2_111111
+        MOV r0, #2_111110
+        ADDS r0, #2_111111
 ```
 
 </details>
@@ -164,9 +164,9 @@ r3 = 11110000000000001010000011110000
 
 Code:
 ```
-		LDR r0, =2_11110000111000101010000011111101
-		LDR r1, =2_00000000111111110000111100001111
-		BIC r0, r1
+        LDR r0, =2_11110000111000101010000011111101
+        LDR r1, =2_00000000111111110000111100001111
+        BIC r0, r1
 ```
 
 </details>
@@ -189,21 +189,21 @@ If r1 = 0FFF<sub>16</sub> and r2 = 4, what is the value of r3 after each of the 
 
 Code:
 ```
-		LDR r1, =0x0FFF
-		MOV r2, #4
-		MOV r3, r1, LSL r2
+        LDR r1, =0x0FFF
+        MOV r2, #4
+        MOV r3, r1, LSL r2
 
-		LDR r1, =0x0FFF
-		MOV r2, #4
-		MOV r3, r1, LSR r2
+        LDR r1, =0x0FFF
+        MOV r2, #4
+        MOV r3, r1, LSR r2
 
-		LDR r1, =0x0FFF
-		MOV r2, #4
-		MVN r3, r1, LSL r2
+        LDR r1, =0x0FFF
+        MOV r2, #4
+        MVN r3, r1, LSL r2
 
-		LDR r1, =0x0FFF
-		MOV r2, #4
-		MVN r3, r1, LSR r2
+        LDR r1, =0x0FFF
+        MOV r2, #4
+        MVN r3, r1, LSR r2
 ```
 
 </details>
@@ -248,20 +248,20 @@ Python:
 ```
 r1 = 0
 while True:
-	r2 = r0 & 1
-	r1 += r2
-	r0 = (r0 >> 1) & 0xFFFFFFFF
-	if r0 == 0:
-		break
+    r2 = r0 & 1
+    r1 += r2
+    r0 = (r0 >> 1) & 0xFFFFFFFF
+    if r0 == 0:
+        break
 ```
 
 ARM assembly:
 ```
-		MOV r1, #0
-Loop	AND r2, r0, #1
-		ADD r1, r2
-		MOVS r0, r0, LSR #1
-		BNE Loop
+        MOV r1, #0
+Loop    AND r2, r0, #1
+        ADD r1, r2
+        MOVS r0, r0, LSR #1
+        BNE Loop
 ```
 
 </details>
@@ -283,12 +283,12 @@ r0 |= r1
 
 ARM assembly:
 ```
-		LDR r0, =0x12345678
-		MOV r1, r0, LSL #24
-		ORR r1, r0, LSR #24
-		BIC r0, #0x000000FF
-		BIC r0, #0xFF000000
-		ORR r0, r1
+        LDR r0, =0x12345678
+        MOV r1, r0, LSL #24
+        ORR r1, r0, LSR #24
+        BIC r0, #0x000000FF
+        BIC r0, #0xFF000000
+        ORR r0, r1
 ```
 
 </details>
@@ -349,7 +349,7 @@ Write ARM code to implement the following C operation.
 ```C
 int s = 0;
 for (i = 0; i < 10; i++) {
-	s = s + i * i;
+    s = s + i * i;
 }
 ```
 
@@ -720,10 +720,10 @@ TODO
 Explain what this fragment of code does instruction by instruction and what purpose it achieves (assuming that register r0 is the register of interest). Note that the data in r0 must not be 0 on entry.
 
 ```
-		MOV r1, #0
-loop	MOVS r0, r0, LSL #1
-		ADDCC r1, r1, #l
-		BCC loop
+        MOV r1, #0
+loop    MOVS r0, r0, LSL #1
+        ADDCC r1, r1, #l
+        BCC loop
 ```
 
 <details>
@@ -751,10 +751,10 @@ TODO
 The following is a loop expressed in ARM code. The code is wrong. Why?
 
 ```
-		MOV r0, #10     ;Loop counter- ten times round the loop
-Next	ADD r1, r1, r0  ;add loop counter to total
-		SUB r0, r0, #1  ;decrement loop counter
-		BEQ Next        ;continue until all done
+        MOV r0, #10     ;Loop counter- ten times round the loop
+Next    ADD r1, r1, r0  ;add loop counter to total
+        SUB r0, r0, #1  ;decrement loop counter
+        BEQ Next        ;continue until all done
 ```
 
 <details>
