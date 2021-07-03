@@ -439,7 +439,7 @@ for (i = 0; i < 10; i++) {
         MOV r1, #0  ; i
 loop    CMP r1, #10
         BGE end
-        MLA r0, r0, r1, r1
+        MLA r0, r1, r1, r0
         ADD r1, #1
         B loop
 
