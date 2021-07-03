@@ -3,7 +3,9 @@ Why is the program counter a pointer and not a counter?
 
 <details>
 <summary>Answer</summary>
-TODO
+
+Instead of counting anything, the program counter contains the address of the next instruction to be executed. Thus, the PC points to the location in memory that holds the next instruction.
+
 </details>
 
 ## 3.2
@@ -88,7 +90,9 @@ The classic processors flags are C, N, V, and Z. Conditional branches may be mad
 
 <details>
 <summary>Answer</summary>
-TODO
+
+`B` or `BAL`: branch always
+
 </details>
 
 ## 3.5
@@ -96,7 +100,11 @@ The ARM's r13 and r14 registers are overlapped (banked or windowed), and a separ
 
 <details>
 <summary>Answer</summary>
-TODO
+
+When two or more registers have same name or address then they are said to be overlapped. For example in the ARM processor there are many r13 registers, but each working with different mode of the operating system.
+
+This mechanism means that the programmer does not have to save r13 and other overlapped registers each time an exception occurs (unless it is a nested exception).
+
 </details>
 
 ## 3.6
@@ -108,7 +116,34 @@ Give examples of possible legal instructions using this format.
 
 <details>
 <summary>Answer</summary>
-TODO
+
+Number of possible legal instructions: 2 * 2 * 2 * 3 = 24
+
+* This
+* This,P
+* This,Q
+* ThisS
+* ThisS,P
+* ThisS,Q
+* ThisB
+* ThisB,P
+* ThisB,Q
+* ThisBS
+* ThisBS,P
+* ThisBS,Q
+* That
+* That,P
+* That,Q
+* ThatS
+* ThatS,P
+* ThatS,Q
+* ThatB
+* ThatB,P
+* ThatB,Q
+* ThatBS
+* ThatBS,P
+* ThatBS,Q
+
 </details>
 
 ## 3.7
@@ -116,15 +151,19 @@ The ARM puts the program counter in register r15, making it visible to the progr
 
 <details>
 <summary>Answer</summary>
-TODO
+
+The ARM's PC is always 4 + 4 = 8 bytes on from the current instruction, because first, the PC is automatically incremented to point to the next instruction (the first 4 bytes), and second, ARM processors are pipelined, which means they fetch the next instruction before they've finished the current one (the second 4 bytes).
+
 </details>
 
 ## 3.8
-What are the relative advantages and disadvantages of general-purpose registers compared separate address and data registers?
+What are the relative advantages and disadvantages of general-purpose registers compared to separate address and data registers?
 
 <details>
 <summary>Answer</summary>
-TODO
+
+Separate data and address registers are inefficient if you have, say, 12 data elements and 4 addresses. On the other hand, it allows instructions to treat address and data values appropriately. For example, arithmetic operations on address registers always sign-extend the result to 32 bits, because an address is a single entity whereas a data value may be partitioned into fields.
+
 </details>
 
 ## 3.9
@@ -132,7 +171,11 @@ Why is a misaligned operand? Why are misaligned operands such a problem in progr
 
 <details>
 <summary>Answer</summary>
-TODO
+
+A misaligned operand is an operand not aligned with its address at an integer multiple of its size.
+
+To access a misaligned operand, we need to perform multiple memory access, bit masking, shifting, and concatenation, which is much more complex than accessing an aligned operand.
+
 </details>
 
 ## 3.10
@@ -140,7 +183,9 @@ Why does the ARM provide a reverse subtract instruction `RSB r0, r1, r2` that im
 
 <details>
 <summary>Answer</summary>
-TODO
+
+Because the ARM treats its two operands unequally. The first operand can only be a register, while the second operand can be a constant or a register with optional shift.
+
 </details>
 
 ## 3.11
@@ -299,7 +344,7 @@ ARM instructions have a 12-bit literal. Instead of permitting a word in the rang
 <details>
 <summary>Answer</summary>
 
-TODO
+A straight 12-bit integer can express a wider consecutive range around 0, while 8-bit literal and 4-bit alignment can express a 8-bit literal fitted anywhere into a 32-bit slot, which is useful for bit masking.
 
 </details>
 
@@ -309,7 +354,34 @@ Write one or more ARM instructions that will clear bits 20 to 25 inclusive in re
 <details>
 <summary>Answer</summary>
 
-TODO
+Clearing the 0-based lowest 20th to 25th bits in little-endian format:
+
+```
+        BIC r0, #0x03F00000
+```
+
+```
+        LDR r1, =0xFC0FFFFF
+        AND r0, r1
+```
+
+```
+        MVN r1, #0x03F00000
+        AND r0, r1
+```
+
+```
+        MVN r0, r0
+        ORR r0, #0x03F00000
+        MVN r0, r0
+```
+
+```
+        MOV r1, r0, LSR #26
+        MOV r1, r1, LSL #26
+        MOV r0, r0, LSL #12
+        ORR r0, r1, r0, LSR #12
+```
 
 </details>
 
@@ -319,7 +391,11 @@ This is a classic problem of assembly language programming. Write a sequence of 
 <details>
 <summary>Answer</summary>
 
-TODO
+```
+        EOR r0, r1
+        EOR r1, r0
+        EOR r0, r1
+```
 
 </details>
 
@@ -329,7 +405,9 @@ What is the difference between the TEQ and CMP and CMN comparison instructions?
 <details>
 <summary>Answer</summary>
 
-TODO
+* `CMP r1, r2` performs `[r1] - [r2]` and updates the N, Z, C and V flags according to the result.
+* `CMN r1, r2` performs `[r1] + [r2]` and updates the N, Z, C and V flags according to the result.
+* `TEQ r1, r2` performs `[r1] - [r2]` and updates the N and Z flags according to the result. It can update the C flag during the calculation of r2, and does not affect the V flag.
 
 </details>
 
@@ -356,7 +434,17 @@ for (i = 0; i < 10; i++) {
 <details>
 <summary>Answer</summary>
 
-TODO
+```
+        MOV r0, #0  ; s
+        MOV r1, #0  ; i
+loop    CMP r1, #10
+        BGE end
+        MLA r0, r0, r1, r1
+        ADD r1, #1
+        B loop
+
+end     B end
+```
 
 </details>
 
@@ -738,7 +826,7 @@ Consider the following Java constructs. Express each in ARM assembly language. A
 operators &, |, ! are AND, OR, and NOT, respectively. The operators && and || are AND and OR operators that support short-circuit evaluation (that is, if the expression yields false AND or true OR further evaluation is halted).
 
 1. `A = (B & C) | (!D);`
-2. `A = (B && C) || (!D);`
+1. `A = (B && C) || (!D);`
 
 <details>
 <summary>Answer</summary>
